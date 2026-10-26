@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="SymbolsTool.DragTrailWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowStyle="None" AllowsTransparency="True" Background="#00FFFFFF" ShowInTaskbar="False" Topmost="True" ResizeMode="NoResize" Width="80" Height="80" IsHitTestVisible="False" xmlns:symbolstool="clr-namespace:SymbolsTool;assembly=SymbolsTool">
+  <Ellipse Name="TrailRing" Width="74" Height="74" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#6366F1" StrokeThickness="3" StrokeDashArray="3,3" StrokeDashCap="Round" Opacity="0.55">
+    <UIElement.RenderTransform>
+      <TransformGroup>
+        <RotateTransform x:Name="TrailRotate" Angle="0" CenterX="37" CenterY="37" />
+        <ScaleTransform x:Name="TrailScale" ScaleX="1.0" ScaleY="1.0" CenterX="37" CenterY="37" />
+      </TransformGroup>
+    </UIElement.RenderTransform>
+  </Ellipse>
+</Window>

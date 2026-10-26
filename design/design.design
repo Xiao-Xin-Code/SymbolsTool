@@ -1,0 +1,102 @@
+{
+  "data": [
+    {
+      "id": "page-drag-snap-flow",
+      "title": "悬浮球 · 拖拽虚环 + 四方向边缘吸附流程",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1729665200000,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1197,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-ecdd8aec",
+          "measuredAt": 1792809274442
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/drag-snap-flow.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-tray-menu",
+      "title": "系统托盘 · 启动 / 右键菜单 / 退出",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1729665200001,
+      "canvasData": {
+        "x": 0,
+        "y": 459,
+        "group": 3,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1181,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-cb3d9c8a",
+          "measuredAt": 1792810349060
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/tray-menu.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-search-interaction",
+      "title": "符号输入 · 搜索过滤 + 自动粘贴交互流程",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1729665200002,
+      "canvasData": {
+        "x": 0,
+        "y": 913,
+        "group": 4,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 996,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-ae2acf07",
+          "measuredAt": 1792809274442
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/search-interaction.html",
+        "interactions": []
+      }
+    },
+    {
+      "id": "page-light-theme-variant",
+      "title": "浅色主题 · 完整符号工具变体",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1729665200003,
+      "canvasData": {
+        "x": 0,
+        "y": 1314,
+        "group": 5,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-f210a14c",
+          "measuredAt": 1792824805416
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/light-theme-variant.html",
+        "interactions": []
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "desktop",
+    "projectName": "Symbol Tool UI",
+    "visualEditorEnabled": false
+  }
+}

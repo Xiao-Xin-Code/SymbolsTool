@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symbol Tool — 搜索过滤 + 粘贴交互完整流程</title>
+    <style id="theme-vars">
+/* Symbol Tool — Design Token System
+   深色 + 浅色 双主题，主色 indigo (#6366F1) */
+
+:root {
+  /* === Primary === */
+  --brand-primary: #6366F1;
+  --brand-primary-hover: #4F46E5;
+  --brand-primary-active: #4338CA;
+  --brand-primary-light: #818CF8;
+  --brand-primary-foreground: #FFFFFF;
+
+  /* === Status === */
+  --brand-success: #10B981;
+  --brand-warning: #F59E0B;
+  --brand-danger: #EF4444;
+
+  /* === Radius Scale === */
+  --brand-radius-sm: 6px;
+  --brand-radius-md: 10px;
+  --brand-radius-lg: 14px;
+  --brand-radius-xl: 20px;
+  --brand-radius-full: 9999px;
+
+  /* === Shadow Scale === */
+  --brand-shadow-sm: 0 1px 2px rgba(0,0,0,0.1);
+  --brand-shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+  --brand-shadow-lg: 0 8px 24px rgba(0,0,0,0.25);
+  --brand-shadow-xl: 0 12px 40px rgba(0,0,0,0.35);
+
+  /* === Semantic aliases (required by preflight) === */
+  --brand-background: #0F0F1A;
+  --brand-foreground: #E4E4E7;
+  --brand-card: #1E1E2E;
+  --brand-card-foreground: #CDD6F4;
+  --brand-popover: #181825;
+  --brand-popover-foreground: #CDD6F4;
+  --brand-muted: #313244;
+  --brand-muted-foreground: #A6ADC8;
+  --brand-border: #45475A;
+  --brand-input: #313244;
+  --brand-ring: #6366F1;
+}
+
+/* ====== Dark Theme (default) ====== */
+html.dark {
+  --brand-background: #0F0F1A;
+  --brand-foreground: #E4E4E7;
+  --brand-card: #1E1E2E;
+  --brand-card-foreground: #CDD6F4;
+  --brand-popover: #181825;
+  --brand-popover-foreground: #CDD6F4;
+  --brand-muted: #313244;
+  --brand-muted-foreground: #A6ADC8;
+  --brand-border: #45475A;
+  --brand-input: #313244;
+  --brand-ring: #6366F1;
+}
+
+/* ====== Light Theme ====== */
+html.light {
+  --brand-background: #F8FAFC;
+  --brand-foreground: #0F172A;
+  --brand-card: #FFFFFF;
+  --brand-card-foreground: #0F172A;
+  --brand-popover: #FFFFFF;
+  --brand-popover-foreground: #0F172A;
+  --brand-muted: #F1F5F9;
+  --brand-muted-foreground: #64748B;
+  --brand-border: #E2E8F0;
+  --brand-input: #F1F5F9;
+  --brand-ring: #6366F1;
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--brand-background);
+    --color-foreground: var(--brand-foreground);
+    --color-card: var(--brand-card);
+    --color-card-foreground: var(--brand-card-foreground);
+    --color-popover: var(--brand-popover);
+    --color-popover-foreground: var(--brand-popover-foreground);
+    --color-primary: var(--brand-primary);
+    --color-primary-foreground: var(--brand-primary-foreground);
+    --color-muted: var(--brand-muted);
+    --color-muted-foreground: var(--brand-muted-foreground);
+    --color-border: var(--brand-border);
+    --color-input: var(--brand-input);
+    --color-ring: var(--brand-ring);
+    --radius-sm: var(--brand-radius-sm);
+    --radius-md: var(--brand-radius-md);
+    --radius-lg: var(--brand-radius-lg);
+    --radius-xl: var(--brand-radius-xl);
+  }
+  @layer base {
+    body { background: var(--brand-background); color: var(--brand-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--brand-background); }
+      .text-background { color: var(--brand-background); }
+      .border-background { border-color: var(--brand-background); }
+      .ring-background { --tw-ring-color: var(--brand-background); }
+      .bg-foreground { background-color: var(--brand-foreground); }
+      .text-foreground { color: var(--brand-foreground); }
+      .border-foreground { border-color: var(--brand-foreground); }
+      .ring-foreground { --tw-ring-color: var(--brand-foreground); }
+      .bg-card { background-color: var(--brand-card); }
+      .text-card { color: var(--brand-card); }
+      .border-card { border-color: var(--brand-card); }
+      .ring-card { --tw-ring-color: var(--brand-card); }
+      .bg-card-foreground { background-color: var(--brand-card-foreground); }
+      .text-card-foreground { color: var(--brand-card-foreground); }
+      .border-card-foreground { border-color: var(--brand-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--brand-card-foreground); }
+      .bg-popover { background-color: var(--brand-popover); }
+      .text-popover { color: var(--brand-popover); }
+      .border-popover { border-color: var(--brand-popover); }
+      .ring-popover { --tw-ring-color: var(--brand-popover); }
+      .bg-popover-foreground { background-color: var(--brand-popover-foreground); }
+      .text-popover-foreground { color: var(--brand-popover-foreground); }
+      .border-popover-foreground { border-color: var(--brand-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--brand-popover-foreground); }
+      .bg-primary { background-color: var(--brand-primary); }
+      .text-primary { color: var(--brand-primary); }
+      .border-primary { border-color: var(--brand-primary); }
+      .ring-primary { --tw-ring-color: var(--brand-primary); }
+      .bg-primary-foreground { background-color: var(--brand-primary-foreground); }
+      .text-primary-foreground { color: var(--brand-primary-foreground); }
+      .border-primary-foreground { border-color: var(--brand-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--brand-primary-foreground); }
+      .bg-muted { background-color: var(--brand-muted); }
+      .text-muted { color: var(--brand-muted); }
+      .border-muted { border-color: var(--brand-muted); }
+      .ring-muted { --tw-ring-color: var(--brand-muted); }
+      .bg-muted-foreground { background-color: var(--brand-muted-foreground); }
+      .text-muted-foreground { color: var(--brand-muted-foreground); }
+      .border-muted-foreground { border-color: var(--brand-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--brand-muted-foreground); }
+      .bg-border { background-color: var(--brand-border); }
+      .text-border { color: var(--brand-border); }
+      .border-border { border-color: var(--brand-border); }
+      .ring-border { --tw-ring-color: var(--brand-border); }
+      .bg-input { background-color: var(--brand-input); }
+      .text-input { color: var(--brand-input); }
+      .border-input { border-color: var(--brand-input); }
+      .ring-input { --tw-ring-color: var(--brand-input); }
+      .bg-ring { background-color: var(--brand-ring); }
+      .text-ring { color: var(--brand-ring); }
+      .border-ring { border-color: var(--brand-ring); }
+      .ring-ring { --tw-ring-color: var(--brand-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+      body { font-family: "Inter", "Segoe UI", "Microsoft YaHei", system-ui, sans-serif; background: #0B0B14; }
+      @keyframes blink-caret {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0; }
+      }
+      .caret-blink::after {
+        content: "|";
+        color: #0F172A;
+        margin-left: 1px;
+        animation: blink-caret 1s step-end infinite;
+        font-weight: 400;
+      }
+      .symbol-btn {
+        font-family: "Segoe UI Emoji", "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+        font-size: 20px;
+        line-height: 1;
+        width: 48px;
+        height: 40px;
+        background: transparent;
+        color: var(--brand-card-foreground);
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: box-shadow 120ms ease, background 120ms ease;
+      }
+      .symbol-btn:hover {
+        box-shadow: inset 0 0 0 1px var(--brand-ring);
+        background: rgba(99, 102, 241, 0.08);
+      }
+      .category-tab {
+        height: 28px;
+        padding: 0 14px;
+        font-size: 12px;
+        font-weight: 500;
+        border-radius: 9999px;
+        background: transparent;
+        color: var(--brand-muted-foreground);
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: background 120ms ease, color 120ms ease;
+      }
+      .category-tab:hover { color: var(--brand-card-foreground); }
+      .category-tab.active {
+        background: var(--brand-primary);
+        color: var(--brand-primary-foreground);
+      }
+      .category-tab.dimmed { color: #5A5B74; cursor: default; }
+      .category-tab.dimmed:hover { color: #5A5B74; }
+
+      /* pill styles */
+      .step-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 32px;
+        padding: 0 14px;
+        border-radius: 9999px;
+        font-size: 12px;
+        font-weight: 500;
+        background: #1E1E2E;
+        color: #A6ADC8;
+        border: 1px solid #45475A;
+        white-space: nowrap;
+      }
+      .step-pill.active {
+        background: #6366F1;
+        color: #FFFFFF;
+        border-color: #6366F1;
+        box-shadow: 0 0 0 4px rgba(99,102,241,0.15);
+      }
+
+      /* stage label */
+      .stage-label { font-size: 11px; color: #A6ADC8; letter-spacing: .08em; text-transform: uppercase; }
+
+      /* panel section header */
+      .section-tag {
+        font-size: 10px;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        color: #6B6F8A;
+        font-weight: 600;
+      }
+
+      /* injected symbol highlight (paste result) */
+      .paste-highlight {
+        display: inline-block;
+        background: rgba(99,102,241,0.12);
+        color: #4338CA;
+        padding: 0 3px;
+        border-radius: 3px;
+        font-weight: 600;
+        animation: flash-in 600ms ease-out;
+      }
+      @keyframes flash-in {
+        0% { background: #6366F1; color: #FFFFFF; }
+        60% { background: rgba(99,102,241,0.18); color: #4338CA; }
+        100% { background: rgba(99,102,241,0.12); color: #4338CA; }
+      }
+
+      /* connector line for bottom card */
+      .step-connector {
+        flex: 1;
+        height: 1px;
+        background: #3B3D5A;
+        min-width: 40px;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased flex items-center justify-center py-12">
+
+  <!-- ============================================================ -->
+  <!-- Main Stage 1400 × 900 -->
+  <!-- ============================================================ -->
+  <div class="relative"
+       style="width: 1400px; height: 900px;
+              background-color: #0B0B14;
+              border-radius: 12px; overflow: hidden;
+              box-shadow: 0 30px 60px rgba(0,0,0,0.45);">
+
+    <!-- dot-grid background -->
+    <div class="absolute inset-0 opacity-20"
+         style="background-image: radial-gradient(circle, #2A2A40 1px, transparent 1px); background-size: 22px 22px;"></div>
+
+    <!-- stage size label -->
+    <div class="absolute" style="left: 24px; top: 18px;">
+      <span class="stage-label">desktop UI mockup · 1400 × 900</span>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- Title Area (top)                                             -->
+    <!-- ========================================================== -->
+    <div class="absolute" style="left: 40px; top: 48px;">
+      <h1 style="font-size: 26px; font-weight: 700; color: #E4E4E7; letter-spacing: -0.01em; margin: 0;">
+        符号输入 · 搜索与粘贴流程
+      </h1>
+      <p style="font-size: 13px; color: #A6ADC8; margin: 6px 0 0 0;">
+        点击符号 → 剪贴板写入 → 自动 Ctrl+V 粘贴到目标窗口
+      </p>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- Top Timeline — 5 steps                                       -->
+    <!-- ========================================================== -->
+    <div class="absolute flex items-center"
+         style="left: 40px; top: 112px;">
+
+      <!-- Step 1 active -->
+      <div class="step-pill active">
+        <i data-lucide="mouse-click" style="width:14px; height:14px;"></i>
+        <span>Step 1 · 点击悬浮球</span>
+      </div>
+
+      <div style="width: 20px; height: 1px; background: #45475A; margin: 0 8px;"></div>
+      <i data-lucide="arrow-right" style="width:16px; height:16px; color:#6366F1;"></i>
+      <div style="width: 12px;"></div>
+
+      <!-- Step 2 -->
+      <div class="step-pill active">
+        <i data-lucide="panel-top-open" style="width:14px; height:14px;"></i>
+        <span>Step 2 · 弹出符号面板</span>
+      </div>
+
+      <div style="width: 20px; height: 1px; background: #45475A; margin: 0 8px;"></div>
+      <i data-lucide="arrow-right" style="width:16px; height:16px; color:#6366F1;"></i>
+      <div style="width: 12px;"></div>
+
+      <!-- Step 3 -->
+      <div class="step-pill active">
+        <i data-lucide="search" style="width:14px; height:14px;"></i>
+        <span>Step 3 · 搜索 / 选择符号</span>
+      </div>
+
+      <div style="width: 20px; height: 1px; background: #45475A; margin: 0 8px;"></div>
+      <i data-lucide="arrow-right" style="width:16px; height:16px; color:#6366F1;"></i>
+      <div style="width: 12px;"></div>
+
+      <!-- Step 4 -->
+      <div class="step-pill active">
+        <i data-lucide="clipboard-copy" style="width:14px; height:14px;"></i>
+        <span>Step 4 · 写入剪贴板</span>
+      </div>
+
+      <div style="width: 20px; height: 1px; background: #45475A; margin: 0 8px;"></div>
+      <i data-lucide="arrow-right" style="width:16px; height:16px; color:#6366F1;"></i>
+      <div style="width: 12px;"></div>
+
+      <!-- Step 5 -->
+      <div class="step-pill active">
+        <i data-lucide="keyboard" style="width:14px; height:14px;"></i>
+        <span>Step 5 · Ctrl+V 输入到目标窗口</span>
+      </div>
+
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- LEFT PANEL AREA — two symbol panels side by side             -->
+    <!-- ========================================================== -->
+    <div class="absolute" style="left: 40px; top: 164px; width: 620px;">
+
+      <!-- LEFT COLUMN: Search BEFORE (category tab filtering) -->
+      <div class="flex">
+        <div style="width: 296px;">
+          <div class="section-tag mb-2">搜索前 · 分类 Tab 筛选</div>
+
+          <div style="width: 320px; background: #1E1E2E; border-radius: 14px;
+                      border: 1px solid #45475A;
+                      box-shadow: 0 8px 24px rgba(0,0,0,0.35); padding: 12px;">
+
+            <!-- header -->
+            <div class="flex items-center justify-between mb-2 pl-1 pr-1">
+              <div class="flex items-center gap-2">
+                <i data-lucide="sparkles" style="width:14px; height:14px; color:#CDD6F4;"></i>
+                <span style="font-size:12px; font-weight:600; color:#CDD6F4; letter-spacing:.02em;">符号工具</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <button class="w-6 h-6 rounded hover:bg-white/10 flex items-center justify-center" aria-label="pin">
+                  <i data-lucide="pin" style="width:12px; height:12px; color:#A6ADC8;"></i>
+                </button>
+                <button class="w-6 h-6 rounded hover:bg-white/10 flex items-center justify-center" aria-label="close">
+                  <i data-lucide="x" style="width:12px; height:12px; color:#A6ADC8;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- category-tabs -->
+            <div class="flex items-center gap-1 mb-2 overflow-x-auto no-scrollbar">
+              <button class="category-tab active">数学</button>
+              <button class="category-tab">箭头</button>
+              <button class="category-tab">表情</button>
+              <button class="category-tab">标点</button>
+              <button class="category-tab">货币</button>
+              <button class="category-tab">装饰</button>
+            </div>
+
+            <!-- symbol-grid (math symbols) -->
+            <div style="display:grid; grid-template-columns: repeat(5, 48px); gap: 2px; height: 124px; margin: 4px 0 8px;">
+              <button class="symbol-btn">∑</button>
+              <button class="symbol-btn">∫</button>
+              <button class="symbol-btn">π</button>
+              <button class="symbol-btn">≈</button>
+              <button class="symbol-btn">∞</button>
+              <button class="symbol-btn">≠</button>
+              <button class="symbol-btn">≤</button>
+              <button class="symbol-btn">≥</button>
+              <button class="symbol-btn">±</button>
+              <button class="symbol-btn">×</button>
+              <button class="symbol-btn">÷</button>
+              <button class="symbol-btn">⊕</button>
+              <button class="symbol-btn">⊗</button>
+              <button class="symbol-btn">∠</button>
+              <button class="symbol-btn">°</button>
+            </div>
+
+            <!-- search-box (empty) -->
+            <div class="relative flex items-center"
+                 style="height:28px; background:#313244; border:1px solid #45475A; border-radius:10px; padding:0 8px;">
+              <i data-lucide="search" style="width:12px; height:12px; color:#A6ADC8; margin-right:6px;"></i>
+              <input type="text"
+                     style="width:100%; height:100%; background:transparent; border:none; outline:none;
+                            font-size:12px; color:#CDD6F4;
+                            font-family:'Segoe UI','Microsoft YaHei',sans-serif;"
+                     placeholder="搜索符号...">
+            </div>
+          </div>
+        </div>
+
+        <!-- divider between two panels -->
+        <div style="width: 28px; display:flex; align-items:center; justify-content:center;">
+          <i data-lucide="arrow-right" style="width:18px; height:18px; color:#6366F1;"></i>
+        </div>
+
+        <!-- RIGHT COLUMN: Searching state (cross-category filter) -->
+        <div style="width: 296px;">
+          <div class="section-tag mb-2">搜索中 · 跨分类过滤</div>
+
+          <div style="width: 320px; background: #1E1E2E; border-radius: 14px;
+                      border: 1px solid #45475A;
+                      box-shadow: 0 8px 24px rgba(0,0,0,0.35); padding: 12px;">
+
+            <!-- header -->
+            <div class="flex items-center justify-between mb-2 pl-1 pr-1">
+              <div class="flex items-center gap-2">
+                <i data-lucide="sparkles" style="width:14px; height:14px; color:#CDD6F4;"></i>
+                <span style="font-size:12px; font-weight:600; color:#CDD6F4; letter-spacing:.02em;">符号工具</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <button class="w-6 h-6 rounded hover:bg-white/10 flex items-center justify-center" aria-label="pin">
+                  <i data-lucide="pin" style="width:12px; height:12px; color:#A6ADC8;"></i>
+                </button>
+                <button class="w-6 h-6 rounded hover:bg-white/10 flex items-center justify-center" aria-label="close">
+                  <i data-lucide="x" style="width:12px; height:12px; color:#A6ADC8;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- category-tabs (DIMMED because cross-category search) -->
+            <div class="flex items-center gap-1 mb-2 overflow-x-auto no-scrollbar">
+              <button class="category-tab dimmed">数学</button>
+              <button class="category-tab dimmed">箭头</button>
+              <button class="category-tab dimmed">表情</button>
+              <button class="category-tab dimmed">标点</button>
+              <button class="category-tab dimmed">货币</button>
+              <button class="category-tab dimmed">装饰</button>
+            </div>
+            <!-- hint -->
+            <div style="font-size:10px; color:#6B6F8A; padding:0 2px 4px;">搜索跨分类生效，Tab 暂时锁定</div>
+
+            <!-- symbol-grid (ONLY arrow symbols shown) -->
+            <div style="display:grid; grid-template-columns: repeat(5, 48px); gap: 2px; height: 124px; margin: 0 0 8px;">
+              <button class="symbol-btn">←</button>
+              <button class="symbol-btn">→</button>
+              <button class="symbol-btn">↑</button>
+              <button class="symbol-btn">↓</button>
+              <button class="symbol-btn">⇐</button>
+              <button class="symbol-btn">⇒</button>
+              <button class="symbol-btn">⇑</button>
+              <button class="symbol-btn">⇓</button>
+              <button class="symbol-btn">↔</button>
+              <button class="symbol-btn">↕</button>
+              <button class="symbol-btn">↗</button>
+              <button class="symbol-btn">↘</button>
+              <button class="symbol-btn">↙</button>
+              <button class="symbol-btn">↖</button>
+              <button class="symbol-btn">⟶</button>
+            </div>
+
+            <!-- search-box (filled with keyword) -->
+            <div class="relative flex items-center"
+                 style="height:28px; background:#313244; border:1px solid #6366F1; border-radius:10px; padding:0 8px;">
+              <i data-lucide="search" style="width:12px; height:12px; color:#A6ADC8; margin-right:6px;"></i>
+              <input type="text" value="arrow" readonly
+                     style="width:100%; height:100%; background:transparent; border:none; outline:none;
+                            font-size:12px; color:#CDD6F4; font-weight:500;
+                            font-family:'Segoe UI','Microsoft YaHei',sans-serif;">
+              <button style="display:flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:4px; background:#6366F1; color:#fff;">
+                <i data-lucide="x" style="width:10px; height:10px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- RIGHT PANEL — Notepad mockup (720px wide)                    -->
+    <!-- ========================================================== -->
+    <div class="absolute" style="right: 40px; top: 164px; width: 720px;">
+      <div class="section-tag mb-2">目标应用 · 记事本（粘贴结果）</div>
+
+      <div>
+        <!-- window chrome -->
+        <div class="h-9 flex items-center px-3 rounded-t-md"
+             style="background: #F3F4F6; border: 1px solid #E2E8F0; border-bottom: none;">
+          <!-- traffic lights -->
+          <div class="flex gap-1.5 items-center">
+            <span class="w-3 h-3 rounded-full" style="background:#EF4444;"></span>
+            <span class="w-3 h-3 rounded-full" style="background:#F59E0B;"></span>
+            <span class="w-3 h-3 rounded-full" style="background:#10B981;"></span>
+          </div>
+          <div class="flex-1 text-center"
+               style="font-family:'Segoe UI','Microsoft YaHei',sans-serif; font-size:12px; color:#0F172A; font-weight:500;">
+            无标题 — 记事本
+          </div>
+          <div class="w-14"></div>
+        </div>
+
+        <!-- content area -->
+        <div class="rounded-b-md"
+             style="background:#FFFFFF; border:1px solid #E2E8F0; border-top:none; height: 280px; padding: 20px 24px;">
+
+          <!-- line 1: pasted result with highlighted symbol -->
+          <div style="font-family:'Inter','Segoe UI','Microsoft YaHei',sans-serif; font-size:15px; color:#0F172A; line-height:1.7;">
+            在数学领域中
+            <span class="paste-highlight">∑</span>
+            <span> 求和符号已插入</span>
+            <span class="caret-blink"></span>
+          </div>
+
+          <!-- line 2: blank -->
+          <div style="height: 28px;"></div>
+
+          <!-- line 3: hint text showing operation is silent -->
+          <div style="font-family:'Inter','Segoe UI',sans-serif; font-size:12px; color:#94A3B8; line-height:1.6; padding-top: 28px; border-top: 1px dashed #CBD5E1;">
+            <i data-lucide="info" style="width:12px; height:12px; display:inline-block; margin-right:4px;"></i>
+            剪贴板操作 SendInput Ctrl+V 为静默行为 — 窗口不会被抢占，用户只看到最终结果。
+          </div>
+
+          <!-- line 4: ghost empty line to suggest multi-line -->
+          <div style="height: 32px; color:#CBD5E1; font-size:13px; font-family:'Inter','Segoe UI',sans-serif;">
+            <!-- empty placeholder -->
+          </div>
+          <div style="height: 32px; color:#CBD5E1; font-size:13px; font-family:'Inter','Segoe UI',sans-serif;">
+            <!-- empty placeholder -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- LINK: Selected symbol → Paste target                         -->
+    <!-- visual arrow connecting the two mockups                     -->
+    <!-- ========================================================== -->
+    <svg class="absolute" style="left: 620px; top: 280px; pointer-events:none;"
+         width="140" height="24" viewBox="0 0 140 24" fill="none">
+      <defs>
+        <marker id="arrowPaste" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+          <path d="M0,0 L10,5 L0,10 Z" fill="#6366F1"/>
+        </marker>
+      </defs>
+      <path d="M2,12 C 40,4 100,20 138,12" stroke="#6366F1" stroke-width="1.5"
+            stroke-dasharray="4 3" fill="none" marker-end="url(#arrowPaste)"/>
+    </svg>
+    <div class="absolute" style="left: 622px; top: 246px; font-size:10px; color:#6366F1; letter-spacing:.08em; font-weight:600;">
+      点击 ∑
+    </div>
+    <div class="absolute" style="left: 724px; top: 258px; font-size:10px; color:#A6ADC8; letter-spacing:.06em;">
+      → Ctrl+V
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- BOTTOM — Input Chain Card (1200 × 180)                       -->
+    <!-- ========================================================== -->
+    <div class="absolute" style="left: 40px; bottom: 40px; width: 1320px;">
+
+      <div class="section-tag mb-3">输入链路 · 从面板关闭到符号落地的四步</div>
+
+      <div style="width: 1320px; height: 160px;
+                  background: linear-gradient(180deg, #151526 0%, #12121F 100%);
+                  border: 1px solid #2A2A40; border-radius: 14px;
+                  padding: 20px 28px;
+                  display: flex; align-items: center;">
+
+        <!-- Step 1: hide panel -->
+        <div style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; width:220px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px;
+                      background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.25);
+                      display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="eye-off" style="width:18px; height:18px; color:#818CF8;"></i>
+          </div>
+          <div>
+            <div style="font-size:11px; color:#6B6F8A; letter-spacing:.08em; font-weight:600;">STEP 01</div>
+            <div style="font-size:14px; font-weight:600; color:#CDD6F4;">隐藏面板</div>
+            <div style="font-size:11px; color:#A6ADC8; margin-top:2px;">WS_EX_NOACTIVATE 不抢焦点</div>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <!-- Step 2: clipboard -->
+        <div style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; width:260px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px;
+                      background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.25);
+                      display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="clipboard-list" style="width:18px; height:18px; color:#A78BFA;"></i>
+          </div>
+          <div>
+            <div style="font-size:11px; color:#6B6F8A; letter-spacing:.08em; font-weight:600;">STEP 02</div>
+            <div style="font-size:14px; font-weight:600; color:#CDD6F4;">写剪贴板</div>
+            <div style="font-size:11px; color:#A6ADC8; margin-top:2px;">WPF Clipboard.SetText，UI 线程</div>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <!-- Step 3: focus restore -->
+        <div style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; width:260px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px;
+                      background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25);
+                      display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="focus" style="width:18px; height:18px; color:#34D399;"></i>
+          </div>
+          <div>
+            <div style="font-size:11px; color:#6B6F8A; letter-spacing:.08em; font-weight:600;">STEP 03</div>
+            <div style="font-size:14px; font-weight:600; color:#CDD6F4;">焦点恢复</div>
+            <div style="font-size:11px; color:#A6ADC8; margin-top:2px;">AttachThreadInput + SetForegroundWindow</div>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <!-- Step 4: SendInput -->
+        <div style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; width:240px;">
+          <div style="width: 40px; height: 40px; border-radius: 10px;
+                      background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25);
+                      display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="keyboard" style="width:18px; height:18px; color:#FBBF24;"></i>
+          </div>
+          <div>
+            <div style="font-size:11px; color:#6B6F8A; letter-spacing:.08em; font-weight:600;">STEP 04</div>
+            <div style="font-size:14px; font-weight:600; color:#CDD6F4;">模拟 Ctrl+V</div>
+            <div style="font-size:11px; color:#A6ADC8; margin-top:2px;">SendInput / keybd_event 静默执行</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

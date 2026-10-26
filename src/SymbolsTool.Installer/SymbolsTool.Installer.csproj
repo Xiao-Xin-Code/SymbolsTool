@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>SymbolsToolSetup</AssemblyName>
+    <RootNamespace>SymbolsTool.Installer</RootNamespace>
+    <ApplicationIcon>..\SymbolsTool\AppIcon.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <!-- 由 build\build-installer.ps1 传入，默认读取仓库 artifacts 目录 -->
+    <PayloadZip Condition="'$(PayloadZip)' == ''">$(MSBuildThisFileDirectory)..\..\artifacts\payload.zip</PayloadZip>
+    <UninstallerExe Condition="'$(UninstallerExe)' == ''">$(MSBuildThisFileDirectory)..\..\artifacts\Uninstall.exe</UninstallerExe>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="..\SymbolsTool\AppIcon.ico" Link="AppIcon.ico" />
+    <EmbeddedResource Include="$(PayloadZip)" LogicalName="SymbolsTool.Payload.zip" Condition="Exists('$(PayloadZip)')" />
+    <EmbeddedResource Include="$(UninstallerExe)" LogicalName="SymbolsTool.Uninstall.exe" Condition="Exists('$(UninstallerExe)')" />
+  </ItemGroup>
+</Project>

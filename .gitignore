@@ -1,0 +1,12 @@
+# 安装位置（本机已安装程序目录）
+/SymbolsTool/
+
+# 构建输出与超大产物（安装包通过 GitHub Release 分发）
+/dist/
+/artifacts/
+/_diag4/
+
+# .NET 构建中间产物
+[Bb]in/
+[Oo]bj/
+*.user

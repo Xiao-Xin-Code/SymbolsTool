@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>符号工具 · 图标方案预览</title>
+<style>
+  :root{
+    --bg:#0F0F1A; --card:#1E1E2E; --border:#45475A;
+    --fg:#E4E4E7; --muted:#A6ADC8; --primary:#6366F1;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:48px; background:var(--bg); color:var(--fg);
+    font-family:"Segoe UI","Microsoft YaHei",system-ui,sans-serif;
+  }
+  header{max-width:1180px;margin:0 auto 36px}
+  h1{font-size:22px;font-weight:600;margin:0 0 8px;letter-spacing:.5px}
+  .sub{color:var(--muted);font-size:13px;line-height:1.7}
+  .grid{
+    max-width:1180px;margin:0 auto;display:grid;
+    grid-template-columns:repeat(3,1fr);gap:20px;
+  }
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:22px;display:flex;flex-direction:column;gap:18px;
+  }
+  .card h2{font-size:14px;font-weight:600;margin:0;display:flex;align-items:center;gap:8px}
+  .tag{
+    font-size:11px;font-weight:500;padding:2px 8px;border-radius:999px;
+    background:rgba(99,102,241,.18);color:#A5B4FC;border:1px solid rgba(99,102,241,.4);
+  }
+  .hero{
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 50% 45%, rgba(99,102,241,.16), transparent 70%);
+    border-radius:12px;padding:18px;
+  }
+  .hero img{width:180px;height:180px;filter:drop-shadow(0 12px 28px rgba(99,102,241,.35))}
+  .note{color:var(--muted);font-size:12px;line-height:1.6;margin:0}
+  .sizes{display:flex;align-items:flex-end;gap:16px;padding:12px 0 2px}
+  .sizes figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:6px}
+  .sizes figcaption{font-size:10px;color:var(--muted)}
+  .z16{image-rendering:pixelated}
+  .strip{
+    display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:10px;
+    background:#202020;border:1px solid #2c2c2c;
+  }
+  .strip span{font-size:11px;color:#9a9a9a;margin-left:auto}
+  .lightstrip{
+    display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:10px;
+    background:#F8FAFC;border:1px solid #E2E8F0;
+  }
+  .lightstrip span{font-size:11px;color:#64748B;margin-left:auto}
+  footer{max-width:1180px;margin:32px auto 0;color:var(--muted);font-size:12px;line-height:1.9}
+  code{color:#A5B4FC;background:rgba(99,102,241,.12);padding:1px 6px;border-radius:4px}
+  @media (max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>符号工具 · 图标方案</h1>
+  <p class="sub">三个候选方向，统一沿用品牌靛蓝渐变（#818CF8 → #6366F1 → #4F46E5）。分别检验 256 / 64 / 48 / 32 / 24 / 16 px 与深色、浅色、任务栏背景下的识别度。</p>
+</header>
+
+<div class="grid">
+  <section class="card">
+    <h2>方案 A · 星芒 <span class="tag">推荐</span></h2>
+    <div class="hero"><img src="png/a-sparkle/256.png" alt="方案 A"></div>
+    <div class="sizes">
+      <figure><img src="png/a-sparkle/64.png" width="64" height="64"><figcaption>64</figcaption></figure>
+      <figure><img src="png/a-sparkle/48.png" width="48" height="48"><figcaption>48</figcaption></figure>
+      <figure><img src="png/a-sparkle/32.png" width="32" height="32"><figcaption>32</figcaption></figure>
+      <figure><img src="png/a-sparkle/24.png" width="24" height="24"><figcaption>24</figcaption></figure>
+      <figure><img src="png/a-sparkle/16.png" width="16" height="16"><figcaption>16</figcaption></figure>
+      <figure><img class="z16" src="png/a-sparkle/16.png" width="64" height="64"><figcaption>16×4</figcaption></figure>
+    </div>
+    <div class="strip"><img src="png/a-sparkle/24.png" width="24" height="24"><img src="png/a-sparkle/16.png" width="16" height="16"><img src="png/a-sparkle/32.png" width="32" height="32"><span>深色任务栏</span></div>
+    <div class="lightstrip"><img src="png/a-sparkle/24.png" width="24" height="24"><img src="png/a-sparkle/16.png" width="16" height="16"><img src="png/a-sparkle/32.png" width="32" height="32"><span>浅色任务栏</span></div>
+    <p class="note">延续现有托盘图标与面板头部的星芒标记，品牌一致性最好；16px 下轮廓依然清晰。</p>
+  </section>
+
+  <section class="card">
+    <h2>方案 B · 段落符 §</h2>
+    <div class="hero"><img src="png/b-section/256.png" alt="方案 B"></div>
+    <div class="sizes">
+      <figure><img src="png/b-section/64.png" width="64" height="64"><figcaption>64</figcaption></figure>
+      <figure><img src="png/b-section/48.png" width="48" height="48"><figcaption>48</figcaption></figure>
+      <figure><img src="png/b-section/32.png" width="32" height="32"><figcaption>32</figcaption></figure>
+      <figure><img src="png/b-section/24.png" width="24" height="24"><figcaption>24</figcaption></figure>
+      <figure><img src="png/b-section/16.png" width="16" height="16"><figcaption>16</figcaption></figure>
+      <figure><img class="z16" src="png/b-section/16.png" width="64" height="64"><figcaption>16×4</figcaption></figure>
+    </div>
+    <div class="strip"><img src="png/b-section/24.png" width="24" height="24"><img src="png/b-section/16.png" width="16" height="16"><img src="png/b-section/32.png" width="32" height="32"><span>深色任务栏</span></div>
+    <div class="lightstrip"><img src="png/b-section/24.png" width="24" height="24"><img src="png/b-section/16.png" width="16" height="16"><img src="png/b-section/32.png" width="32" height="32"><span>浅色任务栏</span></div>
+    <p class="note">语义最直白——图标本体就是一个符号字符；代价是 16px 下笔画会糊在一起，更依赖系统缩放。</p>
+  </section>
+
+  <section class="card">
+    <h2>方案 C · 悬浮球</h2>
+    <div class="hero"><img src="png/c-ball/256.png" alt="方案 C"></div>
+    <div class="sizes">
+      <figure><img src="png/c-ball/64.png" width="64" height="64"><figcaption>64</figcaption></figure>
+      <figure><img src="png/c-ball/48.png" width="48" height="48"><figcaption>48</figcaption></figure>
+      <figure><img src="png/c-ball/32.png" width="32" height="32"><figcaption>32</figcaption></figure>
+      <figure><img src="png/c-ball/24.png" width="24" height="24"><figcaption>24</figcaption></figure>
+      <figure><img src="png/c-ball/16.png" width="16" height="16"><figcaption>16</figcaption></figure>
+      <figure><img class="z16" src="png/c-ball/16.png" width="64" height="64"><figcaption>16×4</figcaption></figure>
+    </div>
+    <div class="strip"><img src="png/c-ball/24.png" width="24" height="24"><img src="png/c-ball/16.png" width="16" height="16"><img src="png/c-ball/32.png" width="32" height="32"><span>深色任务栏</span></div>
+    <div class="lightstrip"><img src="png/c-ball/24.png" width="24" height="24"><img src="png/c-ball/16.png" width="16" height="16"><img src="png/c-ball/32.png" width="32" height="32"><span>浅色任务栏</span></div>
+    <p class="note">与桌面悬浮球完全同形，透明背景圆球在任何底色上都成立；但缺少“方块”的边界感，辨识偏柔和。</p>
+  </section>
+</div>
+
+<footer>
+  <div>可直接使用的资源：<code>SymbolsTool-a-sparkle.ico</code> / <code>SymbolsTool-b-section.ico</code> / <code>SymbolsTool-c-ball.ico</code>，每个含 16/20/24/32/40/48/64/128/256 九档尺寸。</div>
+  <div>矢量源文件：<code>concept-a-sparkle.svg</code>、<code>concept-b-section.svg</code>、<code>concept-c-ball.svg</code>（可无损改色、改圆角）。</div>
+</footer>
+</body>
+</html>

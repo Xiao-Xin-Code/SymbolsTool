@@ -1,0 +1,187 @@
+{
+  "project": {
+    "resolvedLane": "existing_edit_add_comparison",
+    "deviceType": "desktop",
+    "projectName": "Symbol Tool UI",
+    "autoLayout": false,
+    "pages": [
+      {"nodeId": "page-symbol-panel", "packetType": "FreePagePacket", "htmlSrc": "pages/symbol-panel.html", "status": "completed"},
+      {"nodeId": "page-floating-ball-states", "packetType": "FreePagePacket", "htmlSrc": "pages/floating-ball-states.html", "status": "completed"},
+      {"nodeId": "page-drag-snap-flow", "packetType": "FreePagePacket", "htmlSrc": "pages/drag-snap-flow.html", "status": "completed"},
+      {"nodeId": "page-tray-menu", "packetType": "FreePagePacket", "htmlSrc": "pages/tray-menu.html", "status": "completed"},
+      {"nodeId": "page-search-interaction", "packetType": "FreePagePacket", "htmlSrc": "pages/search-interaction.html", "status": "completed"},
+      {"nodeId": "page-light-theme-variant", "packetType": "FreePagePacket", "htmlSrc": "pages/light-theme-variant.html", "status": "completed"}
+    ],
+    "intentProfile": {
+      "caseFamily": "existing_edit_add_comparison",
+      "sourceType": "no-restore-no-library",
+      "graphicStrategy": "layout-static",
+      "routingReason": "existing design project, adding 4 new comparison pages to cover unshown function scenarios"
+    },
+    "selectedIntentWorkflowRead": true,
+    "contextRequirementsLoaded": [
+      {"path": "shared-runtime/runtime-boundaries/lane-runtime-contracts.md", "readStatus": "loaded", "bodyRead": true},
+      {"path": "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md", "readStatus": "loaded", "bodyRead": true},
+      {"path": "delivery-quality/page-rendering-quality-gate.md", "readStatus": "loaded", "bodyRead": true},
+      {"path": "delivery-quality/design-artifact-validation.md", "readStatus": "loaded", "bodyRead": true},
+      {"path": "delivery-quality/delivery-evidence-contract.md", "readStatus": "loaded", "bodyRead": true}
+    ],
+    "contextReadScope": {
+      "mainAgent": {
+        "forbiddenReads": ["other intent-workflows/**"]
+      },
+      "pageSubAgent": {
+        "allowedReads": ["free-exploration-page-runtime.md", "current Page Packet"],
+        "forbiddenReads": ["SKILL.md full re-read"]
+      },
+      "readScopeLedgerWriter": "build-page-dispatch-manifest.mjs"
+    },
+    "validationRunDiscipline": {
+      "maxFullValidationRuns": 2,
+      "softWarningsTriggerRepair": false,
+      "blockingRepairMode": "targeted-once",
+      "forbiddenRepairTriggers": ["soft-warning-only", "provenance-warning-only", "style-warning-only"]
+    },
+    "lowValueCallWatchdog": {
+      "applies": true,
+      "noProgressSignals": ["no_tool_call", "no_artifact_diff"],
+      "noProgressNextAction": "enter_readiness_or_blocked_summary"
+    },
+    "cssPreflightEvidence": {
+      "applies": true,
+      "status": "passed",
+      "command": "node apply-html-head-contract.mjs colors_and_type.css .preflight/preflight.html --prefix=brand",
+      "brandPrefix": "brand",
+      "checks": {
+        "themeVars": "present",
+        "semanticTokenFallback": "present",
+        "themeInline": "present",
+        "tailwindCdn": "present",
+        "htmlClass": "present",
+        "semanticMappings": "resolved"
+      },
+      "retryCount": 1,
+      "blockingReason": null
+    },
+    "creativeRecipe": {
+      "businessTone": "简洁现代的桌面工具感，Catppuccin Mocha 深色主题搭配 Indigo 紫作为主色点缀",
+      "layoutArchetype": "app-shell with floating-ball overlay",
+      "visualSignature": "48px 圆形悬浮球（radial gradient indigo → violet），圆角 14px 面板，subtle shadow，无多余装饰",
+      "densityTarget": "compact（悬浮球 48px、面板 320px 宽、符号网格 5 列、每格 48×40）",
+      "avoidOneThing": "不要用 emoji 作为功能图标，不要加多余渐变和动画，不要出现任务栏窗口感"
+    },
+    "defaultDeliverableVisibility": {
+      "applies": false,
+      "requiredVisibleRegions": [],
+      "hiddenAllowed": []
+    },
+    "pageCompletenessGate": {
+      "pages": 6,
+      "states": ["ball-idle", "ball-hover", "ball-drag", "ball-snapped", "drag-trail", "snap-four-directions", "panel-open", "panel-searching", "panel-emoji-tab", "tray-menu", "paste-flow", "light-theme"],
+      "required": [
+        "悬浮球四种状态（空闲半透明 30%、悬停清晰+放大、拖动中、吸附边缘）",
+        "拖拽虚环轨迹效果（80px 虚线 indigo + 跟随 + 松开立即消失）",
+        "四方向边缘吸附 Clip 半隐藏（左/右/上/下）+ 悬停展开恢复",
+        "面板展开态（分类 Tab + 符号网格 + 搜索框）",
+        "系统托盘图标 + 右键菜单（显示/隐藏、使用说明、退出）",
+        "符号输入完整链路（点击→剪贴板→Ctrl+V 粘贴到目标窗口）",
+        "搜索过滤交互（跨分类搜索 + 结果网格重排）",
+        "深色主题（默认）和浅色主题两种变体"
+      ]
+    }
+  },
+  "dispatchPreflightManifest": [
+    {
+      "nodeId": "page-symbol-panel",
+      "packetType": "FreePagePacket",
+      "status": "completed",
+      "changedFiles": ["pages/symbol-panel.html"],
+      "toolPolicy": {
+        "todoWriteAllowed": false,
+        "validationScriptsAllowed": false,
+        "previewAllowed": false,
+        "helperScriptsAllowed": false,
+        "designFileWriteAllowed": false,
+        "allowedWritePaths": ["pages/symbol-panel.html", "assets/"]
+      }
+    },
+    {
+      "nodeId": "page-floating-ball-states",
+      "packetType": "FreePagePacket",
+      "status": "completed",
+      "changedFiles": ["pages/floating-ball-states.html"],
+      "toolPolicy": {
+        "todoWriteAllowed": false,
+        "validationScriptsAllowed": false,
+        "previewAllowed": false,
+        "helperScriptsAllowed": false,
+        "designFileWriteAllowed": false,
+        "allowedWritePaths": ["pages/floating-ball-states.html", "assets/"]
+      }
+    },
+    {
+      "nodeId": "page-drag-snap-flow",
+      "packetType": "FreePagePacket",
+      "status": "completed",
+      "changedFiles": ["pages/drag-snap-flow.html"],
+      "toolPolicy": {
+        "todoWriteAllowed": false,
+        "validationScriptsAllowed": false,
+        "previewAllowed": false,
+        "helperScriptsAllowed": false,
+        "designFileWriteAllowed": false,
+        "allowedWritePaths": ["pages/drag-snap-flow.html", "assets/"]
+      }
+    },
+    {
+      "nodeId": "page-tray-menu",
+      "packetType": "FreePagePacket",
+      "status": "completed",
+      "changedFiles": ["pages/tray-menu.html"],
+      "toolPolicy": {
+        "todoWriteAllowed": false,
+        "validationScriptsAllowed": false,
+        "previewAllowed": false,
+        "helperScriptsAllowed": false,
+        "designFileWriteAllowed": false,
+        "allowedWritePaths": ["pages/tray-menu.html", "assets/"]
+      }
+    },
+    {
+      "nodeId": "page-search-interaction",
+      "packetType": "FreePagePacket",
+      "status": "completed",
+      "changedFiles": ["pages/search-interaction.html"],
+      "toolPolicy": {
+        "todoWriteAllowed": false,
+        "validationScriptsAllowed": false,
+        "previewAllowed": false,
+        "helperScriptsAllowed": false,
+        "designFileWriteAllowed": false,
+        "allowedWritePaths": ["pages/search-interaction.html", "assets/"]
+      }
+    },
+    {
+      "nodeId": "page-light-theme-variant",
+      "packetType": "FreePagePacket",
+      "status": "completed",
+      "changedFiles": ["pages/light-theme-variant.html"],
+      "toolPolicy": {
+        "todoWriteAllowed": false,
+        "validationScriptsAllowed": false,
+        "previewAllowed": false,
+        "helperScriptsAllowed": false,
+        "designFileWriteAllowed": false,
+        "allowedWritePaths": ["pages/light-theme-variant.html", "assets/"]
+      }
+    }
+  ],
+  "expectedDispatches": [
+    {"nodeId": "page-symbol-panel", "packetType": "FreePagePacket", "status": "completed", "changedFiles": ["pages/symbol-panel.html"], "toolCallLedger": {"todoWriteCalls": 0, "previewCalls": 0, "validationScriptCalls": 0, "helperScriptWrites": 0}},
+    {"nodeId": "page-floating-ball-states", "packetType": "FreePagePacket", "status": "completed", "changedFiles": ["pages/floating-ball-states.html"], "toolCallLedger": {"todoWriteCalls": 0, "previewCalls": 0, "validationScriptCalls": 0, "helperScriptWrites": 0}},
+    {"nodeId": "page-drag-snap-flow", "packetType": "FreePagePacket", "status": "completed", "changedFiles": ["pages/drag-snap-flow.html"], "toolCallLedger": {"todoWriteCalls": 0, "previewCalls": 0, "validationScriptCalls": 0, "helperScriptWrites": 0}},
+    {"nodeId": "page-tray-menu", "packetType": "FreePagePacket", "status": "completed", "changedFiles": ["pages/tray-menu.html"], "toolCallLedger": {"todoWriteCalls": 0, "previewCalls": 0, "validationScriptCalls": 0, "helperScriptWrites": 0}},
+    {"nodeId": "page-search-interaction", "packetType": "FreePagePacket", "status": "completed", "changedFiles": ["pages/search-interaction.html"], "toolCallLedger": {"todoWriteCalls": 0, "previewCalls": 0, "validationScriptCalls": 0, "helperScriptWrites": 0}},
+    {"nodeId": "page-light-theme-variant", "packetType": "FreePagePacket", "status": "completed", "changedFiles": ["pages/light-theme-variant.html"], "toolCallLedger": {"todoWriteCalls": 0, "previewCalls": 0, "validationScriptCalls": 0, "helperScriptWrites": 0}}
+  ]
+}

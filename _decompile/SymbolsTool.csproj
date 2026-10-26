@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>SymbolsTool</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>True</UseWPF>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>14.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="SymbolsTool.Services.SymbolEnglishNames.tsv" />
+    <None Remove="SymbolsTool.Services.ColorGlyphs.tsv" />
+    <EmbeddedResource Include="SymbolsTool.Services.SymbolEnglishNames.tsv" LogicalName="SymbolsTool.Services.SymbolEnglishNames.tsv" />
+    <EmbeddedResource Include="SymbolsTool.Services.ColorGlyphs.tsv" LogicalName="SymbolsTool.Services.ColorGlyphs.tsv" />
+    <Page Remove="SymbolsTool\DragTrailWindow.xaml" />
+    <Page Remove="SymbolsTool\FloatingBallWindow.xaml" />
+    <Page Remove="SymbolsTool\MainWindow.xaml" />
+    <Page Remove="SymbolsTool\PreferencesWindow.xaml" />
+    <Page Remove="SymbolsTool\SymbolPanelWindow.xaml" />
+    <Page Include="SymbolsTool\DragTrailWindow.xaml" Generator="MSBuild:Compile" SubType="Designer" LogicalName="dragtrailwindow.xaml" />
+    <Page Include="SymbolsTool\FloatingBallWindow.xaml" Generator="MSBuild:Compile" SubType="Designer" LogicalName="floatingballwindow.xaml" />
+    <Page Include="SymbolsTool\MainWindow.xaml" Generator="MSBuild:Compile" SubType="Designer" LogicalName="mainwindow.xaml" />
+    <Page Include="SymbolsTool\PreferencesWindow.xaml" Generator="MSBuild:Compile" SubType="Designer" LogicalName="preferenceswindow.xaml" />
+    <Page Include="SymbolsTool\SymbolPanelWindow.xaml" Generator="MSBuild:Compile" SubType="Designer" LogicalName="symbolpanelwindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Emoji.Wpf">
+      <HintPath>..\SymbolsTool\Emoji.Wpf.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

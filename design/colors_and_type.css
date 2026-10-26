@@ -1,0 +1,72 @@
+/* Symbol Tool — Design Token System
+   深色 + 浅色 双主题，主色 indigo (#6366F1) */
+
+:root {
+  /* === Primary === */
+  --brand-primary: #6366F1;
+  --brand-primary-hover: #4F46E5;
+  --brand-primary-active: #4338CA;
+  --brand-primary-light: #818CF8;
+  --brand-primary-foreground: #FFFFFF;
+
+  /* === Status === */
+  --brand-success: #10B981;
+  --brand-warning: #F59E0B;
+  --brand-danger: #EF4444;
+
+  /* === Radius Scale === */
+  --brand-radius-sm: 6px;
+  --brand-radius-md: 10px;
+  --brand-radius-lg: 14px;
+  --brand-radius-xl: 20px;
+  --brand-radius-full: 9999px;
+
+  /* === Shadow Scale === */
+  --brand-shadow-sm: 0 1px 2px rgba(0,0,0,0.1);
+  --brand-shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+  --brand-shadow-lg: 0 8px 24px rgba(0,0,0,0.25);
+  --brand-shadow-xl: 0 12px 40px rgba(0,0,0,0.35);
+
+  /* === Semantic aliases (required by preflight) === */
+  --brand-background: #0F0F1A;
+  --brand-foreground: #E4E4E7;
+  --brand-card: #1E1E2E;
+  --brand-card-foreground: #CDD6F4;
+  --brand-popover: #181825;
+  --brand-popover-foreground: #CDD6F4;
+  --brand-muted: #313244;
+  --brand-muted-foreground: #A6ADC8;
+  --brand-border: #45475A;
+  --brand-input: #313244;
+  --brand-ring: #6366F1;
+}
+
+/* ====== Dark Theme (default) ====== */
+html.dark {
+  --brand-background: #0F0F1A;
+  --brand-foreground: #E4E4E7;
+  --brand-card: #1E1E2E;
+  --brand-card-foreground: #CDD6F4;
+  --brand-popover: #181825;
+  --brand-popover-foreground: #CDD6F4;
+  --brand-muted: #313244;
+  --brand-muted-foreground: #A6ADC8;
+  --brand-border: #45475A;
+  --brand-input: #313244;
+  --brand-ring: #6366F1;
+}
+
+/* ====== Light Theme ====== */
+html.light {
+  --brand-background: #F8FAFC;
+  --brand-foreground: #0F172A;
+  --brand-card: #FFFFFF;
+  --brand-card-foreground: #0F172A;
+  --brand-popover: #FFFFFF;
+  --brand-popover-foreground: #0F172A;
+  --brand-muted: #F1F5F9;
+  --brand-muted-foreground: #64748B;
+  --brand-border: #E2E8F0;
+  --brand-input: #F1F5F9;
+  --brand-ring: #6366F1;
+}

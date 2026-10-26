@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- 方案 C：悬浮球同款靛蓝渐变圆球 + 白色星芒（强调产品形态，背景透明） -->
+  <defs>
+    <radialGradient id="c-ball" cx="0.30" cy="0.28" r="0.78">
+      <stop offset="0" stop-color="#9BA4FB"/>
+      <stop offset="0.42" stop-color="#6366F1"/>
+      <stop offset="0.78" stop-color="#4F46E5"/>
+      <stop offset="1" stop-color="#3F35B8"/>
+    </radialGradient>
+    <radialGradient id="c-glow" cx="0.30" cy="0.24" r="0.55">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="c-star" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E8E9FF"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="232" fill="url(#c-ball)"/>
+  <circle cx="256" cy="256" r="232" fill="url(#c-glow)"/>
+
+  <path fill="url(#c-star)"
+        d="M256 146 C264.4 218.5 293.5 247.6 366 256 C293.5 264.4 264.4 293.5 256 366 C247.6 293.5 218.5 264.4 146 256 C218.5 247.6 247.6 218.5 256 146 Z"/>
+</svg>
