@@ -34,7 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Emoji.Wpf">
-      <HintPath>..\SymbolsTool\Emoji.Wpf.dll</HintPath>
+      <HintPath>..\lib\Emoji.Wpf.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
